@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  namecompletionservice:
+    image: namecompletionservice
+    build:
+      context: .
+      dockerfile: Dockerfile
+    entrypoint: /bin/bash
+    command: -c "pip install debugpy -t /tmp && python /tmp/debugpy --wait-for-client --listen 0.0.0.0:5678 manage.py runserver 0.0.0.0:8010 --nothreading --noreload"
+    ports:
+      - 8010
+      - 5678:5678
+

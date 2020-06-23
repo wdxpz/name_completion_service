@@ -1,0 +1,50 @@
+version: '2.2'
+services:
+  name_completion1:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.0.0
+    container_name: auto_name_complete1
+    environment:
+      - node.name=auto_name_complete1
+      - discovery.seed_hosts=auto_name_complete1
+      - cluster.initial_master_nodes=auto_name_complete1, auto_name_complete2
+      - cluster.name=auto_name_complete_cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - esnet
+  name_completion2:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.0.0
+    container_name: auto_name_complete2
+    environment:
+      - node.name=auto_name_complete2
+      - discovery.seed_hosts=auto_name_complete1
+      - cluster.initial_master_nodes=auto_name_complete1, auto_name_complete2
+      - cluster.name=auto_name_complete_cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata02:/usr/share/elasticsearch/data
+    networks:
+      - esnet
+
+volumes:
+    esdata01:
+      driver: local
+    esdata02:
+      driver: local
+
+networks:
+  esnet:
