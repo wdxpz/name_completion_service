@@ -1,1 +1,7 @@
 *.pyc
+.DS_Store
+.devcontainer/
+.dockerignore
+.vscode/
+db.sqlite3
+employ.txt
