@@ -1,5 +1,6 @@
 import re
 import os
+import json
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
 
@@ -42,15 +43,9 @@ class QuerierSuggester:
 
         try:
             all_data = []
-            with open(cachefile, 'rb') as file:
-                for a_line in file:
-                    line_data = a_line.split(',')
-                    all_data.append({
-                        'en_name': line_data[0],
-                        'ch_name': line_data[2],
-                        'id': line_data[1]
-                        }   
-                    )
+            with open(cachefile, 'r') as file:
+                content = file.read()
+                all_data = json.loads(content)
             self.index_data(all_data)
         except Exception as e:
             msg = 'error to parse name data file: ' + str(e)
@@ -58,7 +53,6 @@ class QuerierSuggester:
             raise Exception(msg)
     
     def index_data(self, all_data):
-
         action = ({
             "_index": self.indexName,
             "suggester": {
@@ -67,8 +61,7 @@ class QuerierSuggester:
             },
             "display_name": data['en_name'],
             "employee_id": data['id'],
-            } for data in all_data)
-
+            } for data in all_data if set(['ch_name', 'en_name', 'id'])==set(data.keys()))
         helpers.bulk(self.es, action)
 
     def query(self, keyword, groupsize=5):
@@ -124,7 +117,10 @@ class QuerierSuggester:
         splits_by_blank = p.split(employee_name)
 
         # results = []
-        for i in range(len(splits_by_blank)):
+        if len(splits_by_blank)==1:
+            return results
+
+        for i in range(1, len(splits_by_blank)):
             results.append(' '.join(splits_by_blank[i:]))
 
         return results

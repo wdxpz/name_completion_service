@@ -19,7 +19,7 @@ Body_To_Create_Name_Suggester_Index = {
                 "display_name": {
                     "type": "keyword",
                     "index": "false",
-                    "doc_values": "false"
+                    "doc_values": "true"
                 },
                 "employee_id": {
                     "type": "keyword",

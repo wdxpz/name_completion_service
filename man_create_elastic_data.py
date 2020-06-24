@@ -10,7 +10,7 @@ querier.index_data("employ.csv")
 
 
 es = QuerierSuggester()
-querys = ['sens', 'he', 'th', 'time t', 'on o', 'coffe', 'sensing', 'weather', 'wea', 'bo', 'cak', 'lak',
+querys = ['sens', 'he', 'th', 'time t', 'on o', 'coffe', 'sensexiting', 'weather', 'wea', 'bo', 'cak', 'lak',
                   'light', 'case', 'ice', 'choco', 'comput', 'class', 'object', 'worker']
 start = time.time()
 for word in querys:

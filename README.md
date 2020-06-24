@@ -1,4 +1,13 @@
 # Elasticsearch DSL query for name autocompletion
+## cluster health
+```
+curl -X GET "localhost:9200/_cat/health?v&pretty"
+```
+
+## all indeices
+```
+curl "localhost:9200/_cat/indices?v"
+```
 
 ## index data
 ```
