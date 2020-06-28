@@ -5,7 +5,7 @@
 
 
 <div class="ui-widget">
-    <label for="searchbox">Search4Thingin: </label>
+    <label for="searchbox">Employee Name Suggester: </label>
     <input id="searchbox">
 </div>
 
@@ -24,9 +24,9 @@
         };
 
         $("#searchbox").autocomplete({
-                source: "/completionapi/",
+                source: "/name",
                 highlight: true,
-                minLength: 2,
+                minLength: 1,
             });
         }
     );

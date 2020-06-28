@@ -8,14 +8,12 @@ complete_engine = QuerierSuggester()
 def query_completion(qury_words):
     if complete_engine is None:
         raise Exception("failed to connect Elastic engine!")
-    
+
     resutls = complete_engine.query(qury_words)
 
     completion_list = []
-    for key in resutls['results'].keys():
-         ontoloty_list = resutls['results'][key]
-         for item in ontoloty_list:
-             completion_list.append(key+':' + item['name'] + ' ' + item['iri'] + ' ' + item['description'] + ' ' + item['comment'])
+    for item in resutls['results']:
+        completion_list.append(item['uuid'] + ' ' + item['name'])
 
     return completion_list
 

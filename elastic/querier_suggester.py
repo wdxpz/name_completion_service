@@ -59,7 +59,7 @@ class QuerierSuggester:
                 "input": self.split_name_for_suggester(data['en_name'], data['ch_name']),
                 # "weight": 1000 - len(data['name']])
             },
-            "display_name": data['en_name'],
+            "display_name": data['ch_name']+'|'+data['en_name'],
             "employee_id": data['id'],
             } for data in all_data if set(['ch_name', 'en_name', 'id'])==set(data.keys()))
         helpers.bulk(self.es, action)
@@ -78,19 +78,13 @@ class QuerierSuggester:
             pass
 
         query_results = self.es.search(index=self.indexName, body=query_body)
-
-        # for i in range(len(Indexed_Doc_Categories)):
-        #     bucket = query_results['suggest'][Indexed_Doc_Categories[i]][0]['options']
-        #     results['total'] += len(bucket)
-        #     for item in bucket:
-        #         item['_source'].pop(Doc_Fields['ont_type'])
-        #         item['_source'].pop('suggester')
-        #         if item['_source'][Doc_Fields['ont_description']] is None:
-        #             item['_source'][Doc_Fields['ont_description']] = ''
-        #         if item['_source'][Doc_Fields['ont_comment']] is None:
-        #             item['_source'][Doc_Fields['ont_comment']] = ''
-
-        #         results['results'][Indexed_Doc_Categories[i]].append(item['_source'])
+        bucket = query_results['suggest']['name_suggest'][0]['options']
+        results['total'] += len(bucket)
+        for item in bucket:
+            results['results'].append({
+                'uuid': item['_source']['employee_id'],
+                'name': item['_source']['display_name']
+            })
 
         return results
 
@@ -103,7 +97,8 @@ class QuerierSuggester:
         
         employee_name = en_name
         if ch_name is not None and len(ch_name)>0:
-            employee_name = ch_name + ' ' + employee_name
+            ch_name_list = [ch_name[i:] for i in range(len(ch_name))]
+            employee_name = ' '.join(ch_name_list) + ' ' + employee_name
 
         employee_name = employee_name.lower()
 
