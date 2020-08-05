@@ -12,9 +12,9 @@ RUN apt-get update \
 RUN pip install elasticsearch==7.0.0 django djangorestframework requests
 
 #build the .bashrc for bash file
-#RUN /bin/bash -c "echo 'source /opt/ros/kinetic/setup.bash' >> /root/.bashrc 
+#RUN /bin/bash -c "echo 'source /opt/ros/kinetic/setup.bash' >> /root/.bashrc
 
 #add this and below command will run without cache
 #ARG CACHEBUST=1
 
-CMD ["/bin/bash"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8064"]

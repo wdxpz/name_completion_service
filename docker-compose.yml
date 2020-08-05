@@ -1,3 +1,4 @@
+
 version: '2.2'
 services:
   name_completion1:
@@ -9,7 +10,7 @@ services:
       - cluster.initial_master_nodes=elastic_auto_name_complete1, elastic_auto_name_complete2
       - cluster.name=elastic_auto_name_complete_cluster
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
     ulimits:
       memlock:
         soft: -1
@@ -30,7 +31,7 @@ services:
       - cluster.initial_master_nodes=elastic_auto_name_complete1, elastic_auto_name_complete2
       - cluster.name=elastic_auto_name_complete_cluster
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
     ulimits:
       memlock:
         soft: -1
@@ -39,6 +40,13 @@ services:
       - esdata02:/usr/share/elasticsearch/data
     networks:
       - esnet
+  name_completion_service:
+    image: name_completion
+    container_name: name_completion_django
+    ports:
+      - 8064:8064
+
+
 volumes:
     esdata01:
       driver: local
@@ -47,3 +55,5 @@ volumes:
 
 networks:
   esnet:
+
+
