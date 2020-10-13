@@ -1,15 +1,22 @@
 # Elasticsearch DSL query for name autocompletion
-## cluster health
+## start the whole service
+```
+sudo sysctl -w vm.max_map_count=262144  #otherwise, it will report bootstrap checks failed when start elasticsearch node after reboot
+cd project_dir
+sudo docker-compose up
+```
+## some web apis
+### cluster health
 ```
 curl -X GET "localhost:9200/_cat/health?v&pretty"
 ```
 
-## all indeices
+### all indeices
 ```
 curl "localhost:9200/_cat/indices?v"
 ```
 
-## index data
+### index data
 ```
 curl -X PUT "localhost:9200/customer/_doc/2?pretty" -H 'Content-Type: application/json' -d'
 {
@@ -33,7 +40,7 @@ curl -X PUT "localhost:9200/customer/_doc/2?pretty" -H 'Content-Type: applicatio
 ```
 
 
-## query data
+### query data
 * use wildcard query to do in_word matching
 ```
 curl -X GET "localhost:9200/customer/_search?pretty" -H 'Content-Type: application/json' -d'
