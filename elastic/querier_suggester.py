@@ -20,8 +20,8 @@ class QuerierSuggester:
         self.docMapping = Body_To_Create_Name_Suggester_Index
 
         if hosts is None:
-            # self.es = Elasticsearch([{'host': '172.17.0.1'}])#for ubuntu, the host value should be set to 172.17.0.1, for macos, set as host.docker.internal
-            self.es = Elasticsearch([{'host': 'host.docker.internal'}])#for macos, the host value should be set to 172.17.0.1, for macos, set as host.docker.internal
+            self.es = Elasticsearch([{'host': '172.17.0.1'}])#for ubuntu, the host value should be set to 172.17.0.1, for macos, set as host.docker.internal
+            #self.es = Elasticsearch([{'host': 'host.docker.internal'}])#for macos, the host value should be set to 172.17.0.1, for macos, set as host.docker.internal
         else:
             self.es = Elasticsearch(hosts)
 
