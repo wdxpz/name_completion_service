@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.10
 
 WORKDIR /projects/name_completion_service
 COPY . .
